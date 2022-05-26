@@ -5,6 +5,7 @@ Created on Thu Jan  9 18:34:13 2020
 @author: eredm
 """
 
+from unicodedata import name
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -14,13 +15,11 @@ import csv
 page = requests.get("https://research4kids.ucalgary.ca/members/directory/")
 
 # print(page.text)
+
 soup = BeautifulSoup(page.content, 'html.parser')
+
 # print(soup.prettify())
-
 # print(type(soup))
-# print(dir(soup))
-
-# div = soup.find("div", {"id": "views-element-container"})
 
 names = []
 profile_pages = []
@@ -30,7 +29,7 @@ data = soup.findAll('div',attrs={'class':'views-element-container'})
 for div in data:
     links = div.findAll('a')
     for link in links:
-        print(link.get_text())
+        # print(link.get_text())
 
         if link.get('href') != None:
             if 'https://' in link.get('href'):
@@ -42,7 +41,7 @@ for div in data:
                 # print(cur_link)
 
 print("---------------------------------------------------------")
-print(profile_pages)
+# print(profile_pages)
 
 for page in profile_pages:
     cur_page = requests.get(page)
@@ -56,7 +55,15 @@ for page in profile_pages:
             if link.get('href') != None:
                 if 'mailto:' in link.get('href'):
                     emails.append(link.get_text())
-                    print(emails)
+                    # print(emails)
+
+#### Need to transpose both names and emails here!!!
+
+data = [names,emails]
+df = pd.DataFrame(data, columns = ['Name', 'Email'])
+df.to_csv(index=False)
+
+
 
         # emails.append(links.get_text())
         # print(links[0].get_text())
