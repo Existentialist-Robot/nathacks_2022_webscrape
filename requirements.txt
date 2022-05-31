@@ -1,4 +1,0 @@
-python-csv
-spyder
-bs4
-requests
