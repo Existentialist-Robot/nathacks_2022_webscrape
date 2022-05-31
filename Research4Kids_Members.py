@@ -12,6 +12,7 @@ import pandas as pd
 import csv
 
 
+
 page = requests.get("https://research4kids.ucalgary.ca/members/directory/")
 
 # print(page.text)
