@@ -5,12 +5,11 @@ Created on Thu Jan  9 18:34:13 2020
 @author: eredm
 """
 
-from unicodedata import name
+# from unicodedata import name
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import csv
-
+# import csv
 
 
 page = requests.get("https://research4kids.ucalgary.ca/members/directory/")
@@ -31,7 +30,7 @@ for div in data:
     links = div.findAll('a')
     for link in links:
         # print(link.get_text())
-
+        names.append(link.get_text())
         if link.get('href') != None:
             if 'https://' in link.get('href'):
                 pass
@@ -42,7 +41,8 @@ for div in data:
                 # print(cur_link)
 
 print("---------------------------------------------------------")
-# print(profile_pages)
+
+print(profile_pages)
 
 for page in profile_pages:
     cur_page = requests.get(page)
@@ -60,6 +60,6 @@ for page in profile_pages:
 
 #### Need to transpose both names and emails here!!!
 
-data = [names,emails]
+data = list(zip(names, emails))
 df = pd.DataFrame(data, columns = ['Name', 'Email'])
-df.to_csv(index=False)
+df.to_csv("Research4Kids_Members",index=False)
