@@ -63,3 +63,4 @@ for page in profile_pages:
 data = list(zip(names, emails))
 df = pd.DataFrame(data, columns = ['Name', 'Email'])
 df.to_csv("Research4Kids_Members",index=False)
+
